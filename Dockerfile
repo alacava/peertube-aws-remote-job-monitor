@@ -3,7 +3,7 @@ FROM ubuntu:latest
 
 # Update packages and Install cron
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install curl -y
+RUN apt-get install curl unzip zip nano libssl-dev -y
 
 RUN curl -L -o /usr/bin/jq https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux64
 
