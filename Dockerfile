@@ -32,5 +32,4 @@ RUN chmod +x /src/scripts/*.sh
 RUN chmod +x /usr/bin/jq
 
 # Run cron, and tail the primary cron log
-RUN /src/scripts/start.sh
-RUN /src/scripts/peertube-check.sh
+ENTRYPOINT printenv > /etc/environment && /src/scripts/start.sh && /src/scripts/peertube-check.sh
