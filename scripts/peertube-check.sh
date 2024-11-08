@@ -74,7 +74,7 @@ echo "--------------------------"
 
 startTime=$(date --date="+$sleepTime seconds" '+%T')
 echo "Sleeping for $sleepTime - $startTime"
-sleep $sleepTime
+sleep $PAUSE
 echo "Pause Done"
 
 done
