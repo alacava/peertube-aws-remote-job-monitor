@@ -80,7 +80,7 @@ echo "peertube_pending_remote_jobs_count{server=\"$SERVER\"} $count_pt"  > /usr/
 
 echo "--------------------------"
 
-startTime=$(date --date="+$sleepTime seconds" '+%T')
+startTime=$(date --date="+$PAUSE seconds" '+%T')
 echo "Sleeping for $PAUSE - $startTime"
 sleep $PAUSE
 echo "Pause Done"
