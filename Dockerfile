@@ -3,7 +3,8 @@ FROM ubuntu:latest
 
 # Update packages and Install cron
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install curl unzip zip nano libssl-dev -y
+RUN apt-get install curl unzip zip nano libssl-dev apache2 -y
+RUN systemctl enable apache2
 
 RUN curl -L -o /usr/bin/jq https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux64
 
@@ -30,6 +31,8 @@ ENV RUNEVERY=600
 # Ensure the scripts are executable
 RUN chmod +x /src/scripts/*.sh
 RUN chmod +x /usr/bin/jq
+
+EXPOSE 80
 
 # Run cron, and tail the primary cron log
 ENTRYPOINT printenv > /etc/environment && /src/scripts/start.sh && /src/scripts/peertube-check.sh

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+lastlevel=0
+mkdir -p /usr/local/apache2/htdocs
+
 while :
 do
 
@@ -31,7 +34,7 @@ countJSON=$(curl -k "${API_PATH_PT}/runners/jobs?stateOneOf=2&stateOneOf=1&state
 
 count_pt=$(jq -r '.total' <<< $countJSON)
 
-echo "Pending Peertube Remote Jobs $count_pt"
+echo "Pending Peertube Remote Jobs: $count_pt"
 
 if [[ $count_pt -gt 0 ]]
 then
@@ -40,22 +43,22 @@ else
   level=0
 fi
 echo "Level is $level"
-echo "Last Level $lastlevelvar"
+echo "Last Level $lastlevel"
 
 generate_post_data() {
   cat <<EOF
 {
-  "content": "Message: Runner Count Changed from $lastlevelvar to $level",
+  "content": "Message: Runner Count Changed from $lastlevel to $level",
   "embeds": [{
     "title": "URL",
-    "description": "Runner Count Changed from $lastlevelvar to $level",
+    "description": "Runner Count Changed from $lastlevel to $level",
     "color": "45973"
   }]
 }
 EOF
 }
 
-if [[ $level -eq $lastlevelvar ]]
+if [[ $level -eq $lastlevel ]]
 then
   echo "No Level Change Needed"
 elif [[ ($level -eq 1)  ]]
@@ -68,12 +71,17 @@ else
   curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data)" $discord_url
 fi
 
-lastlevel=$level
+
+
+lastlevel=$(echo $level)
+
+echo "peertube_pending_remote_jobs_count{server=\"$SERVER\"} $count_pt"  > /usr/local/apache2/htdocs/metrics
+#echo "peertube_pending_remote_instance_status{server=\"$SERVER\"} $count_pt"  > /usr/local/apache2/htdocs/metrics
 
 echo "--------------------------"
 
 startTime=$(date --date="+$sleepTime seconds" '+%T')
-echo "Sleeping for $sleepTime - $startTime"
+echo "Sleeping for $PAUSE - $startTime"
 sleep $PAUSE
 echo "Pause Done"
 
