@@ -10,4 +10,4 @@ aws configure set default.region $REGION
 
 echo "output = text" >> /root/.aws/config
 
-systemctl start apache2
+#systemctl start apache2
