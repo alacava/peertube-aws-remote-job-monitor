@@ -1,4 +1,5 @@
 #!/bin/bash
+rm /root/.aws/config
 
 KEY="$AWSKEY"
 SECRET="$AWSSECRET"
