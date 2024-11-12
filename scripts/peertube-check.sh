@@ -1,6 +1,6 @@
 #!/bin/bash
 
-lastlevel=0
+lastlevel=9
 mkdir -p /usr/local/apache2/htdocs
 
 while :
