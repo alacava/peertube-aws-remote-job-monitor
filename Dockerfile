@@ -1,5 +1,5 @@
 # Pulling Ubuntu image
-FROM ubuntu:latest-alpine
+FROM ubuntu:latest
 
 # Update packages and Install cron
 RUN apt-get update && apt-get upgrade -y
